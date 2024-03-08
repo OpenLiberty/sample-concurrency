@@ -9,6 +9,10 @@
 *     IBM Corporation - initial API and implementation
 *******************************************************************************/
 
+function openWebSocket() {
+    webSocket = new WebSocket("ws://localhost:9080/jakartaconcurrencysample/concurrencyEndpoint");
+}
+
 function toast(message, index) {
 	var length = 3000;
 	var toast = document.getElementById("toast");
