@@ -6,11 +6,12 @@
         <feature>concurrent-3.1</feature>
         <feature>cdi-4.1</feature>
         <feature>websocket-2.2</feature>
-        <feature>jsonp-2.1</feature>
+        <feature>jndi-1.0</feature>
     </featureManager>
 
     <httpEndpoint host="*" httpPort="${default.http.port}" httpsPort="${default.https.port}" id="defaultHttpEndpoint"/>
 
     <applicationManager autoExpand="true"/>
     <webApplication contextRoot="/jakartaconcurrencysample" location="jakartaconcurrencysample.war" />
+    
 </server>

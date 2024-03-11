@@ -1,12 +1,19 @@
+/*******************************************************************************
+* Copyright (c) 2024 IBM Corporation and others.
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v2.0
+* which accompanies this distribution, and is available at
+* https://www.eclipse.org/legal/epl-v20.html
+*
+* Contributors:
+*     IBM Corporation - initial API and implementation
+*******************************************************************************/
 package io.openliberty.sample.application;
 
-import java.io.IOException;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.json.JsonObject;
-import jakarta.websocket.EncodeException;
 import jakarta.websocket.Session;
 
 @ApplicationScoped
@@ -23,13 +30,4 @@ public class WebSocketSessionsBean {
         sessions.remove(s);
     }
 
-    public void broadcast(JsonObject json) {
-        sessions.forEach( s -> {
-            try {
-                s.getBasicRemote().sendObject(json);
-            } catch (IOException | EncodeException e) { //TODO better error handling
-                e.printStackTrace();
-            } 
-        });
-    }
 }
