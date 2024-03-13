@@ -60,15 +60,11 @@ public class ConcurrencyService {
     @Inject
     ConcurrencyBean bean;
 
-    private boolean scheduleStarted = false;
 
     @Path("/schedule")
     @GET
     public void schedule() {
-        if (!scheduleStarted) {
-            scheduleStarted = true;
             bean.counter();
-        }
     }
 
     @Path("/contextualFlow")
