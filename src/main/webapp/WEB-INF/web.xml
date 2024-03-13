@@ -9,9 +9,9 @@
     </welcome-file-list>
 
     <env-entry>
-        <env-entry-name>java:comp/env/replyMessage</env-entry-name>
+        <env-entry-name>java:comp/env/replySuccess</env-entry-name>
         <env-entry-type>java.lang.String</env-entry-type>
-        <env-entry-value>SUCCESS</env-entry-value>
-      </env-entry>
+        <env-entry-value>Hello from java:comp/env! The document was inserted successfully!</env-entry-value>
+    </env-entry>
 
 </web-app>

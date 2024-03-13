@@ -11,22 +11,27 @@
 
 function openWebSocket() {
 
-    socket = new WebSocket("ws://localhost:9080/jakartaconcurrencysample/concurrencyEndpoint");
-
-    var i = 0;
-    socket.onopen = function(e) {
-        var data = {"test" : "data"};
-        for (var j = 0; j < 1; j++)
-            socket.send(JSON.stringify(data));
-    };
+    socket = new WebSocket("ws://localhost:9080/concurrencyEndpoint");
       
-      socket.onmessage = function(event) {
-        //console.log(`[message] Data received from server: ${event.data}`);
-        i++;
+    socket.onmessage = function(event) {
+        var json = JSON.parse(event.data);
+        if (json.hasOwnProperty("schedule")) {
+            document.getElementById("scheduleOutput").innerText = "Count: " + json.schedule;
+        }
+        else if (json.hasOwnProperty("contextualFlow")) {
+            document.getElementById("contextualFlowOutput").innerText =  json.contextualFlow;
+        }
+        console.log(JSON.parse(event.data));
       };
-      
-    socket.onclose = function(e) {
-        console.log("Socket closed: " + i);
+
+}
+
+async function restCall(call) {
+    var response = await fetch("concurrency/api/" + call);
+    console.log(response.status)
+    if (response.status == 200) {
+        var output = Number.parseFloat(await response.text());
+        document.getElementById("virtualThreadsOutput").innerText = "100k threads run in:  " + output.toFixed(2) + "s";
     }
 }
 

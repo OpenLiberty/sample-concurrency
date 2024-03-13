@@ -10,10 +10,13 @@
 *******************************************************************************/
 package io.openliberty.sample.application;
 
+import java.io.IOException;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
+
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
+import jakarta.websocket.EncodeException;
 import jakarta.websocket.OnClose;
-import jakarta.websocket.OnMessage;
 import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
@@ -21,29 +24,27 @@ import jakarta.websocket.server.ServerEndpoint;
 @ApplicationScoped
 @ServerEndpoint(value = "/concurrencyEndpoint")
 public class ConcurrencyEndpoint {
-
-    @Inject
-    ConcurrencyBean concurrency;
     
-    @Inject
-    WebSocketSessionsBean sessions;
+    private Set<Session> sessions = new CopyOnWriteArraySet<Session>();
 
     @OnOpen
     public void onOpen(Session session) {
-        System.out.println("addSession" + session);
-        sessions.addSession(session);
-        //concurrency.addShips();
-        concurrency.messagesRecieved();
+        sessions.add(session);
     }
 
     @OnClose
     public void onClose(Session session) {
-        sessions.removeSession(session);
+        sessions.remove(session);
     }
 
-    @OnMessage
-    public void onMessage(Session session, String message) {
-        System.out.println("WS Message: " + message);
-        concurrency.processMessage(session, message);
+    public void broadcast(String json) {
+        sessions.forEach(endpoint -> {
+            try {
+                endpoint.getBasicRemote().sendObject(json);
+            } catch (IOException | EncodeException e) {
+                e.printStackTrace(System.out);
+            }
+        });
     }
+
 }

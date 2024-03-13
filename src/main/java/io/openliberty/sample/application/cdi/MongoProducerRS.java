@@ -22,7 +22,7 @@ import jakarta.enterprise.inject.Disposes;
 import jakarta.enterprise.inject.Produces;
 
 @ApplicationScoped
-public class MongoProducer {
+public class MongoProducerRS {
 
     //TODO add config when there's an EE11 compatible MPConfig
     @Produces

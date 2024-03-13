@@ -10,67 +10,27 @@
 *******************************************************************************/
 package io.openliberty.sample.application;
 
-import java.util.concurrent.SubmissionPublisher;
-
-import java.util.concurrent.atomic.AtomicLong;
-
-
-
-import io.openliberty.sample.application.reactivestreams.Message;
-import io.openliberty.sample.application.reactivestreams.MongoSubscriber;
-import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.concurrent.Asynchronous;
 import jakarta.enterprise.concurrent.Schedule;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.concurrent.ManagedExecutorService;
 import jakarta.inject.Inject;
-import jakarta.websocket.Session;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+
 
 @ApplicationScoped
 public class ConcurrencyBean {
-    int ships = 0;
-
+   
     @Inject
-    WebSocketSessionsBean sessions;
+    ConcurrencyEndpoint sessions;
 
-    @Inject
-    ManagedExecutorService mes;
+    private int count = 0;
 
-    @Inject
-    MongoSubscriber subscriber;
-
-    SubmissionPublisher<Message> publisher;
-
-    private AtomicLong messageCount = new AtomicLong(0);
-
-    @PostConstruct
-    public void init() {
-        publisher = new SubmissionPublisher<Message>(mes, 1000);
-        //publisher = new SubmissionPublisher<Message>(Executors.newFixedThreadPool(3), 1000);
-       //publisher = new SubmissionPublisher<Message>(Runnable::run, 1000);
-        publisher.subscribe(subscriber);
-        subscriber.messagesRecieved();
+    @Asynchronous(runAt = { @Schedule(cron = "*/3 * * * * *")}) // Every 3 Seconds
+    void counter() {
+        count++;
+        JsonObject response = Json.createObjectBuilder().add("schedule", count).build();
+        sessions.broadcast(response.toString());
     }
-
-    //@Asynchronous(runAt = { @Schedule(cron = "*/3 * * * * *")})
-    void messagesRecieved() {
-        System.out.println("MessageCount" + messageCount.get());
-    }
-    
-    //@Asynchronous(runAt = { @Schedule(cron = "*/3 * * * * *")})
-    /*
-    void addShips() {
-        System.out.println("addShips");
-        ships = ships + 1 % 10;
-        //sessions.broadcast(Json.createObjectBuilder().add("ships", ships).build());
-    }
-    */
-    
-
-    public void processMessage(Session session, String message) {
-        messageCount.getAndIncrement();
-        publisher.offer(new Message(message, session), null);
-    }
-
 
 }

@@ -12,49 +12,47 @@ package io.openliberty.sample.application.reactivestreams;
 
 import java.util.concurrent.Flow.Subscriber;
 import java.util.concurrent.Flow.Subscription;
-import java.util.concurrent.atomic.AtomicLong;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
-import org.bson.Document;
-import org.reactivestreams.FlowAdapters;
+import com.mongodb.client.result.InsertOneResult;
 
-import com.mongodb.reactivestreams.client.MongoCollection;
-
-import jakarta.enterprise.concurrent.ContextService;
+import io.openliberty.sample.application.ConcurrencyEndpoint;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 
 @ApplicationScoped
-public class MongoSubscriber implements Subscriber<Message> {
-    
-    @Inject
-    MongoCollection<Document> mongo;
-
-    @Inject
-    private ContextService contextService;
+public class MongoSubscriber implements Subscriber<InsertOneResult> {
 
     private Subscription subscription;
 
-    private AtomicLong messageCount = new AtomicLong(0);
+    @Inject
+    ConcurrencyEndpoint sessions;
 
     @Override
     public void onSubscribe(Subscription subscription) {
         this.subscription = subscription;
-        System.out.println("Subscribed - MongoSubscriber");
         subscription.request(10);
     }
 
     @Override
-    public void onNext(Message item) {
-        System.out.println(item);
-        System.out.println("next - MongoSubscriber");
-        System.out.println("pre: " + Thread.currentThread().getName() + " " + Thread.currentThread().threadId());
+    public void onNext(InsertOneResult item) {
+        if (item.wasAcknowledged()) {
+			try {
+				
+                String replySuccess = (String) new InitialContext().lookup("java:comp/env/replySuccess");
+                
+                JsonObject response = Json.createObjectBuilder().add("contextualFlow", replySuccess).build();
+                sessions.broadcast(response.toString());
+			} catch (NamingException e) {
+				System.out.println("Application context not available on Flow.Subscriber");
+			}
 
-        mongo.insertOne(Document.parse(item.json())).subscribe(FlowAdapters.toSubscriber(contextService.contextualSubscriber(new WebSocketSubscriber(item.session()))));
-        //mongo.insertOne(Document.parse(item.json())).subscribe(FlowAdapters.toSubscriber(new WebSocketSubscriber(item.session())));
-        messageCount.getAndIncrement();
-        System.out.println("next - MongoSubscriber end");
+        }
+        else System.out.println("Insert not acknowledged");
         subscription.request(1);
     }
 
@@ -65,8 +63,6 @@ public class MongoSubscriber implements Subscriber<Message> {
 
     @Override
     public void onComplete() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onComplete'");
     }
-
+    
 }

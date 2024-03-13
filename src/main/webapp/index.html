@@ -25,7 +25,28 @@
                 <div class="line"></div>
                 <div class="headerImage"></div>
                 <h2>Congrats on your shiny, new Open Liberty sample app!</h2>
-                <p>TODO Sample Description</p>
+                <p>This sample app demonstrates new features in Jakarta Concurrency 3.1</p>
+        
+            </div>
+        </section>
+        <section id="app" >
+            <div>
+                    <button id="scheduleButton" class="buttons" style="width:10em" onclick="restCall('schedule')">Schedule</button>
+            </div>
+            <div id="scheduleOutput">
+                Count: 0
+            </div>
+            <div>
+                <button id="contextualFlowButton" class="buttons" style="width:10em" onclick="restCall('contextualFlow')">ContextulFlow</button>
+            </div>
+            <div id="contextualFlowOutput">
+                &nbsp;
+            </div>
+            <div>
+                <button id="virtualThreadsButton" class="buttons " style="width:10em" onclick="restCall('virtualThreads')">VirtualThreads</button>
+            </div>
+            <div id="virtualThreadsOutput">
+                &nbsp;
             </div>
         </section>
     </body>
