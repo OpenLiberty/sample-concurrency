@@ -52,7 +52,7 @@ public class ConcurrencyService {
     ManagedExecutorService virtualManagedExecutor;
 
     @Inject
-    private ContextService contextService;
+    ContextService contextService;
 
     @Inject
     MongoSubscriber subscriber;
@@ -85,7 +85,9 @@ public class ConcurrencyService {
         List<Future<Integer>> futures = new ArrayList<Future<Integer>>(100_000);
         long start = System.nanoTime();
         for (int i = 1; i < 100_000; i++) {
+
             futures.add(virtualManagedExecutor.submit(() -> {
+            
                 try {
 					Thread.sleep(Duration.ofSeconds(1));                 
 				} catch (InterruptedException e) {
