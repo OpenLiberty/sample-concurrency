@@ -11,9 +11,14 @@
 package io.openliberty.sample.it;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
 
+import jakarta.json.Json;
+import jakarta.json.JsonNumber;
+import jakarta.json.JsonObject;
 import jakarta.websocket.ClientEndpoint;
 import jakarta.websocket.CloseReason;
 import jakarta.websocket.OnClose;
@@ -23,9 +28,10 @@ import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 
 @ClientEndpoint
-public class Endpoint {
+public class TestEndpoint {
     
-    public BlockingQueue<String> messages = new ArrayBlockingQueue<String>(10);
+    public BlockingQueue<Integer> scheduleQueue = new ArrayBlockingQueue<Integer>(10);
+    public BlockingQueue<String> flowQueue = new ArrayBlockingQueue<String>(1);
 
     @OnOpen
     public void onOpen(Session session)
@@ -36,7 +42,9 @@ public class Endpoint {
     @OnMessage
     public void onMessage(Session session, String message) throws IOException
     {
-        messages.add(message);
+        JsonObject json = Json.createReader(new StringReader(message)).readObject();
+        if (json.containsKey("schedule")) scheduleQueue.add(json.getInt("schedule"));
+        else if (json.containsKey("contextualFlow")) flowQueue.add(json.getString("contextualFlow"));
     }
 
     @OnClose
