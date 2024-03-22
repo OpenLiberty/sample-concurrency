@@ -10,6 +10,7 @@
 *******************************************************************************/
 package io.openliberty.sample.it;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.StringReader;
@@ -32,7 +33,7 @@ public class ConcurrencyIT {
     
     private WebSocketContainer wsContainer;
     private Session wsSession;
-    private Endpoint endpoint;
+    private TestEndpoint endpoint;
     
     private Client restClient;
 
@@ -50,7 +51,7 @@ public class ConcurrencyIT {
     public void setup() throws Exception {
         wsContainer = ContainerProvider.getWebSocketContainer();
         
-        endpoint = new Endpoint();
+        endpoint = new TestEndpoint();
         wsSession = wsContainer.connectToServer(endpoint, URI.create("ws://localhost:9080/concurrencyEndpoint"));
 
         restClient = ClientBuilder.newClient();
@@ -69,9 +70,15 @@ public class ConcurrencyIT {
     @Test
     public void scheduleTest() throws InterruptedException {
         restClient.target(baseURL + "schedule").request().get();
-        int first = Json.createReader(new StringReader(endpoint.messages.poll(5, TimeUnit.SECONDS))).readObject().getInt("schedule");
-        int second = Json.createReader(new StringReader(endpoint.messages.poll(5, TimeUnit.SECONDS))).readObject().getInt("schedule");
+        int first = endpoint.scheduleQueue.poll(5, TimeUnit.SECONDS);
+        int second =endpoint.scheduleQueue.poll(5, TimeUnit.SECONDS);
 
         assertTrue(first + 1 == second);
+    }
+
+    @Test
+    public void contextualFlowTest() throws InterruptedException {
+        restClient.target(baseURL + "contextualFlow").request().get();
+        assertEquals("Hello from java:comp/env! The document was inserted successfully!", endpoint.flowQueue.poll(5, TimeUnit.SECONDS));
     }
 }
