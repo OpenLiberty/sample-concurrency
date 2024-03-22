@@ -14,10 +14,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 import jakarta.json.Json;
-import jakarta.json.JsonNumber;
 import jakarta.json.JsonObject;
 import jakarta.websocket.ClientEndpoint;
 import jakarta.websocket.CloseReason;
