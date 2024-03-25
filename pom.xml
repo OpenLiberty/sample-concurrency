@@ -117,7 +117,7 @@
                 <version>${version.liberty-maven-plugin}</version>
                 <configuration>
                     <install> <!-- Using Daily Builds until ee-11 features are in beta -->
-                        <runtimeUrl>https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/nightly/2024-03-06_1900/openliberty-all-24.0.0.3-cl240320240306-1900.zip</runtimeUrl>
+                        <runtimeUrl>https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/nightly/2024-03-25_0300/openliberty-all-24.0.0.4-cl240420240325-0300.zip</runtimeUrl>
                     </install>
                     <!-- re-enable when concurrency 3.1 is in beta
                     <assemblyArtifact>
