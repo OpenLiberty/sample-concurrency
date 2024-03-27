@@ -46,7 +46,7 @@ public class ConcurrencyIT {
         wsContainer = ContainerProvider.getWebSocketContainer();
         
         endpoint = new TestEndpoint();
-        wsSession = wsContainer.connectToServer(endpoint, URI.create("ws://localhost:9080/concurrencyEndpoint"));
+        wsSession = wsContainer.connectToServer(endpoint, URI.create("ws://localhost:" + port + "/concurrencyEndpoint"));
 
         restClient = ClientBuilder.newClient();
     }
