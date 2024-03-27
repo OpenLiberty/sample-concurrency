@@ -7,7 +7,7 @@ on:
   pull_request:
     branches: [ "main" ]
   push:
-    branches: [ "actions"]
+    branches: [ "actions"]  #Allows testing Actions changes in a fork
   schedule:
     - cron: "0 12 * * 1-5"
 
@@ -20,14 +20,14 @@ jobs:
 
     services:
       mongo:
-        image: mongo:5.0.25
+        image: mongo:7.0.7
         env:
           POSTGRES_USER: sampleUser
           POSTGRES_PASSWORD: openliberty
           POSTGRES_DB: testdb
         # Set health checks to wait until postgres has started
         options: >-
-          --health-cmd mongo
+          --health-cmd "echo 'db.runCommand("ping").ok' | mongosh --quiet"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
