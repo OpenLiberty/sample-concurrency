@@ -71,7 +71,7 @@ public class ConcurrencyService {
     @GET
     public void contextualFlow() {
         mongo.insertOne(Document.parse("{\"test\" : \"data\"}"))
-        .subscribe(FlowAdapters.toSubscriber(contextService.contextualSubscriber(subscriber)));
+             .subscribe(FlowAdapters.toSubscriber(contextService.contextualSubscriber(subscriber)));
     } 
 
     @Path("/virtualThreads")
