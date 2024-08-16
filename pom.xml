@@ -17,7 +17,7 @@
         <version.liberty-maven-plugin>3.10.3</version.liberty-maven-plugin>
         <!-- OpenLiberty runtime -->
         <version.openliberty-group>io.openliberty.beta</version.openliberty-group>
-        <version.openliberty-runtime>24.0.0.6-beta</version.openliberty-runtime>
+        <version.openliberty-runtime>24.0.0.8-beta</version.openliberty-runtime>
         <http.port>9080</http.port>
         <https.port>9443</https.port>
         <liberty.var.app.context.root>/</liberty.var.app.context.root>
@@ -116,17 +116,12 @@
                 <artifactId>liberty-maven-plugin</artifactId>
                 <version>${version.liberty-maven-plugin}</version>
                 <configuration>
-                    <install> <!-- Using Daily Builds until all ee-11 features are in beta -->
-                        <runtimeUrl>https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/nightly/2024-05-22_0400/openliberty-all-24.0.0.6-cl240620240522-0400.zip</runtimeUrl>
-                    </install>
-                    <!-- re-enable when concurrency 3.1 is in beta
                     <assemblyArtifact>
                         <groupId>${version.openliberty-group}</groupId>
                         <artifactId>openliberty-runtime</artifactId>
                         <version>${version.openliberty-runtime}</version>
                         <type>zip</type>
                     </assemblyArtifact>
-                    -->
                     <serverName>JakartaConcurrencyServer</serverName>
                     <bootstrapProperties>
                         <default.http.port>${http.port}</default.http.port>

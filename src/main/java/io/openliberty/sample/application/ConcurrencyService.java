@@ -27,7 +27,6 @@ import io.openliberty.sample.application.reactivestreams.MongoSubscriber;
 import jakarta.enterprise.concurrent.ContextService;
 import jakarta.enterprise.concurrent.ManagedExecutorDefinition;
 import jakarta.enterprise.concurrent.ManagedExecutorService;
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -38,7 +37,6 @@ import jakarta.ws.rs.core.MediaType;
                            qualifiers = WithVirtualThreads.class,
                            virtual = true)
 @Path("/api")
-@ApplicationScoped
 public class ConcurrencyService {
 
     @Inject
