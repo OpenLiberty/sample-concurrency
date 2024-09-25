@@ -21,10 +21,6 @@ jobs:
     services:
       mongo:
         image: mongo:7.0.7
-        env:
-          POSTGRES_USER: sampleUser
-          POSTGRES_PASSWORD: openliberty
-          POSTGRES_DB: testdb
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd "echo 'db.runCommand("ping").ok' | mongosh --quiet"
