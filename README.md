@@ -1,7 +1,7 @@
 # Sample Concurrency
 Open Liberty sample application demonstrating Jakarta Concurrency 
 
-**Note: The sample is currently using a nightly build of Open Liberty. Nightly builds have not gone through the full release process and may not be as stable as Beta or Release builds**
+**Note: The sample is currently using a Beta build of Open Liberty.**
 
 ## Environment Setup
 To run this sample, first [download](https://github.com/OpenLiberty/sample-concurrency/archive/refs/heads/main.zip) or clone this repo - to clone:
