@@ -20,7 +20,7 @@ jobs:
 
     services:
       mongo:
-        image: mongo:8.0.14
+        image: mongo:8.2
         # Set health checks to wait until mongo has started
         options: >-
           --health-cmd "echo 'db.runCommand("ping").ok' | mongosh --quiet"
