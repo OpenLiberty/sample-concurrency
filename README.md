@@ -15,7 +15,7 @@ Requires Java 21 for virtual threads. IBM Semuru Runtimes Java 21 can be obtaine
 ### Set Up MongoDB
 You will need a MongoDB instance to use this sample. If you have Docker installed, you can use the following command to start a mongo container:
 ```shell
-docker run -d -p 27017:27017 --name liberty_mongo mongo:8.0.3
+docker run -d -p 27017:27017 --name liberty_mongo mongo:8.2
 ```
 
 ## Running the Sample
