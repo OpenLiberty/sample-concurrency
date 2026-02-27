@@ -10,13 +10,12 @@
     <packaging>war</packaging>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Plugins -->
         <version.liberty-maven-plugin>3.12.0</version.liberty-maven-plugin>
         <!-- OpenLiberty runtime -->
-        <version.openliberty-group>io.openliberty.beta</version.openliberty-group>
+        <openliberty.groupId>io.openliberty.beta</openliberty.groupId>
         <http.port>9080</http.port>
         <https.port>9443</https.port>
         <liberty.var.app.context.root>/</liberty.var.app.context.root>
@@ -57,26 +56,18 @@
             <groupId>jakarta.inject</groupId>
             <artifactId>jakarta.inject-api</artifactId>
             <version>2.0.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.json</groupId>
             <artifactId>jakarta.json-api</artifactId>
             <version>2.1.3</version>
-        </dependency>        
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver-reactivestreams</artifactId>
             <version>5.6.4</version>
-        </dependency>    
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongodb-driver-core</artifactId>
-            <version>5.6.4</version>
-        </dependency>   
-        <dependency>
-            <groupId>org.reactivestreams</groupId>
-            <artifactId>reactive-streams</artifactId>
-            <version>1.0.4</version>
         </dependency>
                            
         <!-- Test Dependencies-->
@@ -116,7 +107,7 @@
                 <version>${version.liberty-maven-plugin}</version>
                 <configuration>
                     <assemblyArtifact>
-                        <groupId>${version.openliberty-group}</groupId>
+                        <groupId>${openliberty.groupId}</groupId>
                         <artifactId>openliberty-runtime</artifactId>
                         <type>zip</type>
                     </assemblyArtifact>
