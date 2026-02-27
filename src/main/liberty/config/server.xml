@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<server description="new server">
+<server description="Concurrency Sample Server">
 
     <!-- Enable features -->
     <featureManager>
@@ -13,6 +12,6 @@
     <httpEndpoint host="*" httpPort="${default.http.port}" httpsPort="${default.https.port}" id="defaultHttpEndpoint"/>
 
     <applicationManager autoExpand="true"/>
-    <webApplication contextRoot="/" location="JakartaConcurrencySample.war" />
+    <webApplication contextRoot="${app.context.root}" location="JakartaConcurrencySample.war" />
     
 </server>
